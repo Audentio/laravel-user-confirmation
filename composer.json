@@ -1,0 +1,31 @@
+{
+    "name": "audentio/laravel-user-confirmation",
+    "description": "Laravel user confirmation for projects",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jake Booher",
+            "email": "jakeb@audentio.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "audentio/laravel-base": "^1",
+        "audentio/laravel-auth": "^1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Audentio\\LaravelUserConfirmation\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Audentio\\LaravelUserConfirmation\\Providers\\UserConfirmationServiceProvider"
+            ]
+        }
+    }
+}
