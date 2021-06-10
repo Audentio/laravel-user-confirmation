@@ -18,7 +18,7 @@ class CreateUserConfirmationsTable extends Migration
             $table->remoteId('user_id');
             $table->string('handler_class');
             $table->string('token');
-            $table->json('data');
+            $table->json('data')->nullable();
             $table->timestamps();
 
             $table->unique(['user_id', 'handler_class']);
