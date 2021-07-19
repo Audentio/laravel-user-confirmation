@@ -30,6 +30,7 @@ class PasswordResetConfirmation extends AbstractConfirmation
             return false;
         }
         $this->user->password = $extra;
+        $this->user->save();
 
         return true;
     }
