@@ -33,11 +33,10 @@ class EmailConfirmation extends AbstractConfirmation
         return true;
     }
 
-    protected function _confirm(?string $extra = null): bool
+    protected function _confirm(?string $extra = null, ?string &$error = null): bool
     {
         $this->user->markEmailAsVerified();
 
         return true;
     }
-
 }

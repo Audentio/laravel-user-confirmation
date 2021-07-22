@@ -24,11 +24,12 @@ class PasswordResetConfirmation extends AbstractConfirmation
         return 'A password reset has been requested for your account. Click the link below to update your password.';
     }
 
-    protected function _confirm(?string $extra = null): bool
+    protected function _confirm(?string $extra = null, ?string &$error = null): bool
     {
         if (empty($extra) || strlen($extra) < 5) {
             return false;
         }
+
         $this->user->password = $extra;
         $this->user->save();
 

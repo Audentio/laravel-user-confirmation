@@ -22,6 +22,11 @@ abstract class AbstractConfirmation
         return $this->user;
     }
 
+    public function getNotifiable()
+    {
+        return $this->getUser();
+    }
+
     public function getUserConfirmation(): UserConfirmationModelInterface
     {
         return $this->userConfirmation;
@@ -51,17 +56,18 @@ abstract class AbstractConfirmation
         return true;
     }
 
-    public function sendConfirmation(): void
+    public function sendConfirmation(array $data = []): void
     {
+        $this->userConfirmation->data = $data;
         $this->userConfirmation->generateConfirmationToken();
         $this->userConfirmation->save();
 
         $this->sendNotification();
     }
 
-    public function confirm(?string $extra = null): bool
+    public function confirm(?string $extra = null, ?string &$error = null): bool
     {
-        $confirmed = $this->_confirm($extra);
+        $confirmed = $this->_confirm($extra, $error);
         if ($confirmed) {
             $this->userConfirmation->delete();
             return true;
@@ -77,7 +83,13 @@ abstract class AbstractConfirmation
 
     protected function sendNotification(): void
     {
-        $notification = $this->user->notify($this->getNotificationHandler());
+        $notifiable = $this->getNotifiable();
+        if (is_string($notifiable)) {
+            \Notification::route('mail', $notifiable)
+                ->notify($this->getNotificationHandler());
+        } else {
+            \Notification::send($notifiable, $this->getNotificationHandler());
+        }
     }
 
     public abstract function getConfirmationType(): string;
@@ -85,7 +97,7 @@ abstract class AbstractConfirmation
     public abstract function getConfirmationSubject(): string;
     public abstract function getConfirmationDescription(): string;
 
-    protected abstract function _confirm(?string $extra = null): bool;
+    protected abstract function _confirm(?string $extra = null, ?string &$error = null): bool;
 
     public function __construct(User $user, ?UserConfirmation $userConfirmation = null)
     {

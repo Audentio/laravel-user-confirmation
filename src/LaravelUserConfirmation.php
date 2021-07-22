@@ -9,7 +9,7 @@ class LaravelUserConfirmation
 {
     protected static string $baseConfirmationUrl;
 
-    public static function sendUserConfirmation(User $user, string $handlerClass): bool
+    public static function sendUserConfirmation(User $user, string $handlerClass, array $data = []): bool
     {
         /** @var AbstractConfirmation $confirmation */
         $confirmation = new $handlerClass($user);
@@ -18,7 +18,7 @@ class LaravelUserConfirmation
             return false;
         }
 
-        $confirmation->sendConfirmation();
+        $confirmation->sendConfirmation($data);
         return true;
     }
 

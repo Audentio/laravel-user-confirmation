@@ -19,11 +19,10 @@ trait UserConfirmationModelTrait
 
     protected function initializeUserConfirmationModelTrait(): void
     {
-        $this->fillable = array_merge($this->fillable, [
+        $this->fillable = array_merge([
             'user_id', 'handler_class', 'token'
-        ]);
+        ], $this->fillable);
 
         $this->casts['data'] = 'json';
     }
-
 }
