@@ -22,7 +22,7 @@ class ConfirmationNotification extends Notification
         return (new MailMessage)
             ->subject($this->confirmation->getConfirmationSubject())
             ->line($this->confirmation->getConfirmationDescription())
-            ->action($this->confirmation->getConfirmationCtaText(), $this->confirmation->getConfirmationUrl());
+            ->action($this->confirmation->getConfirmationCtaText(), $this->confirmation->getConfirmationUrl($notifiable));
     }
 
     public function toArray($notifiable): array

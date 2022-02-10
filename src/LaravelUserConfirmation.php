@@ -7,7 +7,7 @@ use Audentio\LaravelUserConfirmation\Confirmations\AbstractConfirmation;
 
 class LaravelUserConfirmation
 {
-    protected static string $baseConfirmationUrl;
+    protected static string|\Closure $baseConfirmationUrl;
 
     public static function sendUserConfirmation(User $user, string $handlerClass, array $data = []): bool
     {
@@ -22,16 +22,21 @@ class LaravelUserConfirmation
         return true;
     }
 
-    public static function getBaseConfirmationUrl(): string
+    public static function getBaseConfirmationUrl($notifiable): string
     {
         if (!isset(self::$baseConfirmationUrl)) {
             throw new \RuntimeException('Base confirmation URL has not been set.');
         }
 
+        if (self::$baseConfirmationUrl instanceof \Closure) {
+            $function = self::$baseConfirmationUrl;
+            return $function($notifiable);
+        }
+
         return self::$baseConfirmationUrl;
     }
 
-    public static function setBaseConfirmationUrl(string $baseUrl): void
+    public static function setBaseConfirmationUrl(string|\Closure $baseUrl): void
     {
         self::$baseConfirmationUrl = $baseUrl;
     }
