@@ -22,7 +22,7 @@ class LaravelUserConfirmation
         return true;
     }
 
-    public static function getBaseConfirmationUrl($notifiable): string
+    public static function getBaseConfirmationUrl($notifiable, AbstractConfirmation $confirmationHandler): string
     {
         if (!isset(self::$baseConfirmationUrl)) {
             throw new \RuntimeException('Base confirmation URL has not been set.');
@@ -30,7 +30,7 @@ class LaravelUserConfirmation
 
         if (self::$baseConfirmationUrl instanceof \Closure) {
             $function = self::$baseConfirmationUrl;
-            return $function($notifiable);
+            return $function($notifiable, $confirmationHandler);
         }
 
         return self::$baseConfirmationUrl;

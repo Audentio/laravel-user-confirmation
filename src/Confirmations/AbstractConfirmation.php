@@ -34,7 +34,7 @@ abstract class AbstractConfirmation
 
     public function getConfirmationUrl($notifiable): string
     {
-        $url = LaravelUserConfirmation::getBaseConfirmationUrl($notifiable);
+        $url = LaravelUserConfirmation::getBaseConfirmationUrl($notifiable, $this);
 
         if (strpos($url, '?') !== false) {
             $url .= '&';
